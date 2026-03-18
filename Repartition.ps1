@@ -9,14 +9,14 @@ $driveSizeGB = [math]::Round($drive.Size / 1GB, 2) # Size in GB
 
 
 If ($driveSizeGB -lt 200){ # If C drive size less than 200, do 100GB for C and the rest for D.
-    Resize-Partition -DriveLetter C -Size 100GB
+    Resize-Partition -DriveLetter C -Size 150GB
 	New-Partition -DiskNumber 0 -UseMaximumSize -NewDriveLetter D | Format-Volume
 	Set-Volume -DriveLetter D -NewFileSystemLabel "Data"
 }
 Else{
 	# If the size is larger than 200 do half.
 	$currentSize = (Get-Partition -DriveLetter C).Size
-	$newSize = [math]::Round($currentSize / 2)
+	$newSize = [math]::Round($currentSize / 4)
 	# Resize the C drive to the new size
 	Resize-Partition -DriveLetter C -Size $newSize
 	New-Partition -DiskNumber 0 -UseMaximumSize -NewDriveLetter D | Format-Volume
